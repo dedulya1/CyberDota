@@ -1,7 +1,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>D:\dev\Java Projects\CyberDota\src\main\resources\logs\app.log</file>
+        <file>C:\Users\37544\Documents\GitHub\CyberDota\src\main\resources\logs\app.log</file>
         <param name="Append" value="false"/>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
