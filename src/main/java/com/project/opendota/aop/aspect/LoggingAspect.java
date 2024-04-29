@@ -26,7 +26,7 @@ public class LoggingAspect {
       return output;
     } catch (Throwable exception) {
       executionTime = System.currentTimeMillis() - start;
-      log.info(
+      log.error(
           "Method {}() failed in {} ms with message: {}",
           methodName,
           executionTime,

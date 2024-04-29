@@ -70,8 +70,9 @@ public class MatchController {
     matchService.addPlayerToMatch(matchId, playerId);
     return new ResponseEntity<>(UPDATE_SUCCESS_MESSAGE, HttpStatus.OK);
   }
+
   @GetMapping("/filter")
-  public ResponseEntity<String> getSomething(){
+  public ResponseEntity<String> getSomething() {
     throw new NotImplementedException("Resource doesn't exist");
   }
 }
