@@ -32,5 +32,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
         env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: mvn verify sonar:sonar -D sonar.host.url=https://sonarcloud.io -D sonar.organization=dedulya1 -D sonar.projectKey=dedulya1_CyberDota -D SONAR_TOKEN=0f069c048754e83a831654be95d242a49a158e7f
