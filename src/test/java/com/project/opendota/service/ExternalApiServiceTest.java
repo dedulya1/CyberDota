@@ -10,9 +10,12 @@ import static org.mockito.Mockito.when;
 import com.project.opendota.dto.ExternalApiResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +68,7 @@ class ExternalApiServiceTest {
         Mockito.<Class<Object>>any(), isA(Object[].class))).thenReturn(responseEntity);
 
     // Act
-    ExternalApiResponse actualMatchInfo = externalApiService.getMatchInfo(1L);
+    ExternalApiResponse actualMatchInfo = externalApiService.getMatchInfo(eq(1L));
 
     // Assert
     verify(responseEntity).getBody();
@@ -78,8 +81,13 @@ class ExternalApiServiceTest {
   /**
    * Method under test: {@link ExternalApiService#getMatchInfo(Long)}
    */
-  @Test
-  void testGetMatchInfo3() throws RestClientException {
+  @ParameterizedTest
+  @CsvSource({
+          "42", "https://api.opendota.com/api/matches/1",
+          "", "https://api.opendota.com/api/matches/1",
+          "1", "https://api.opendota.com/api/matches/1"
+  })
+  void testGetMatchInfo3(Object returnValue,String exchangeValue) throws RestClientException {
     // Arrange
     ResponseEntity<Object> responseEntity = mock(ResponseEntity.class);
     when(responseEntity.getBody()).thenReturn("42");
@@ -101,49 +109,7 @@ class ExternalApiServiceTest {
   /**
    * Method under test: {@link ExternalApiService#getMatchInfo(Long)}
    */
-  @Test
-  void testGetMatchInfo4() throws RestClientException {
-    // Arrange
-    ResponseEntity<Object> responseEntity = mock(ResponseEntity.class);
-    when(responseEntity.getBody()).thenReturn("");
-    when(restTemplate.exchange(Mockito.<String>any(), Mockito.<HttpMethod>any(),
-        Mockito.<HttpEntity<Object>>any(),
-        Mockito.<Class<Object>>any(), isA(Object[].class))).thenReturn(responseEntity);
-
-    // Act
-    ExternalApiResponse actualMatchInfo = externalApiService.getMatchInfo(1L);
-
-    // Assert
-    verify(responseEntity).getBody();
-    verify(restTemplate).exchange(eq("https://api.opendota.com/api/matches/1"),
-        isA(HttpMethod.class),
-        isA(HttpEntity.class), isA(Class.class), isA(Object[].class));
-    assertNull(actualMatchInfo);
-  }
-
-  /**
-   * Method under test: {@link ExternalApiService#getMatchInfo(Long)}
-   */
-  @Test
-  void testGetMatchInfo5() throws RestClientException {
-    // Arrange
-    ResponseEntity<Object> responseEntity = mock(ResponseEntity.class);
-    when(responseEntity.getBody()).thenReturn(1);
-    when(restTemplate.exchange(Mockito.<String>any(), Mockito.<HttpMethod>any(),
-        Mockito.<HttpEntity<Object>>any(),
-        Mockito.<Class<Object>>any(), isA(Object[].class))).thenReturn(responseEntity);
-
-    // Act
-    ExternalApiResponse actualMatchInfo = externalApiService.getMatchInfo(1L);
-
-    // Assert
-    verify(responseEntity).getBody();
-    verify(restTemplate).exchange(eq("https://api.opendota.com/api/matches/1"),
-        isA(HttpMethod.class),
-        isA(HttpEntity.class), isA(Class.class), isA(Object[].class));
-    assertNull(actualMatchInfo);
-  }
-
+  
   /**
    * Method under test: {@link ExternalApiService#getMatchInfo(Long)}
    */

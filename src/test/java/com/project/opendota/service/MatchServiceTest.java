@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -116,7 +115,7 @@ class MatchServiceTest {
     Match actualMatchById = matchService.getMatchById(1L);
 
     // Assert
-    verify(cacheEntity).get(eq(1L));
+    verify(cacheEntity).get(1L);
     assertSame(match, actualMatchById);
   }
 
@@ -131,7 +130,7 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(InvalidRequestException.class, () -> matchService.getMatchById(1L));
-    verify(cacheEntity).get(eq(1L));
+    verify(cacheEntity).get(1L);
   }
 
   /**
@@ -148,9 +147,9 @@ class MatchServiceTest {
     matchService.deleteMatch(1L);
 
     // Assert that nothing has changed
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).deleteById(eq(1L));
-    verify(matchRepository).existsById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).deleteById(1L);
+    verify(matchRepository).existsById(1L);
   }
 
   /**
@@ -165,8 +164,8 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(InvalidRequestException.class, () -> matchService.deleteMatch(1L));
-    verify(matchRepository).deleteById(eq(1L));
-    verify(matchRepository).existsById(eq(1L));
+    verify(matchRepository).deleteById(1L);
+    verify(matchRepository).existsById(1L);
   }
 
   /**
@@ -179,7 +178,7 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(ResourceNotFoundException.class, () -> matchService.deleteMatch(1L));
-    verify(matchRepository).existsById(eq(1L));
+    verify(matchRepository).existsById(1L);
   }
 
   /**
@@ -209,7 +208,7 @@ class MatchServiceTest {
     matchService.updateMatch(1L, matchDetails);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
+    verify(cacheEntity).remove(1L);
     verify(matchRepository).save(isA(Match.class));
     assertEquals(1L, matchDetails.getMatchId().longValue());
   }
@@ -233,7 +232,7 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(InvalidRequestException.class, () -> matchService.updateMatch(1L, matchDetails));
-    verify(cacheEntity).remove(eq(1L));
+    verify(cacheEntity).remove(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -304,8 +303,8 @@ class MatchServiceTest {
     matchService.partialUpdateMatch(1L, updates);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -337,8 +336,8 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(InvalidRequestException.class, () -> matchService.partialUpdateMatch(1L, updates));
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -361,7 +360,7 @@ class MatchServiceTest {
     // Act and Assert
     assertThrows(ResourceNotFoundException.class,
         () -> matchService.partialUpdateMatch(1L, updates));
-    verify(matchRepository).findById(eq(1L));
+    verify(matchRepository).findById(1L);
   }
 
   /**
@@ -400,8 +399,8 @@ class MatchServiceTest {
     matchService.partialUpdateMatch(1L, updates);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -441,8 +440,8 @@ class MatchServiceTest {
     matchService.partialUpdateMatch(1L, updates);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -482,8 +481,8 @@ class MatchServiceTest {
     matchService.partialUpdateMatch(1L, updates);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -530,9 +529,9 @@ class MatchServiceTest {
     matchService.addPlayerToMatch(1L, 1L);
 
     // Assert
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
-    verify(playerRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
+    verify(playerRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -571,9 +570,9 @@ class MatchServiceTest {
 
     // Act and Assert
     assertThrows(InvalidRequestException.class, () -> matchService.addPlayerToMatch(1L, 1L));
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
-    verify(playerRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
+    verify(playerRepository).findById(1L);
     verify(matchRepository).save(isA(Match.class));
   }
 
@@ -605,9 +604,9 @@ class MatchServiceTest {
     matchService.addPlayerToMatch(1L, 1L);
 
     // Assert that nothing has changed
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
-    verify(playerRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
+    verify(playerRepository).findById(1L);
   }
 
   /**
@@ -633,8 +632,8 @@ class MatchServiceTest {
     matchService.addPlayerToMatch(1L, 1L);
 
     // Assert that nothing has changed
-    verify(cacheEntity).remove(eq(1L));
-    verify(matchRepository).findById(eq(1L));
-    verify(playerRepository).findById(eq(1L));
+    verify(cacheEntity).remove(1L);
+    verify(matchRepository).findById(1L);
+    verify(playerRepository).findById(1L);
   }
 }
