@@ -13,4 +13,5 @@ import lombok.ToString;
 public class ExceptionDetails {
   private Date timestamp;
   private String message;
+  
 }
