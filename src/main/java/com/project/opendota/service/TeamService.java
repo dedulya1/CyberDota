@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 @Logging
 @Service
 public class TeamService {
+  public static final String TEAM_WITH_ID_D_NOT_FOUND = "Team (with id = %d) not found";
+  public static final String PLAYER_WITH_ID_D_NOT_FOUND = "Player (with id = %d) not found";
   private final CacheEntity<Long, Team> cache;
   private final TeamRepository teamRepository;
   private final PlayerRepository playerRepository;
@@ -28,7 +30,7 @@ public class TeamService {
     Team team = cache.get(id);
     if (team == null) {
       team = teamRepository.findById(id).orElseThrow(
-          () -> new ResourceNotFoundException("Player (with id = %d) not found".formatted(id)));
+          () -> new ResourceNotFoundException(PLAYER_WITH_ID_D_NOT_FOUND.formatted(id)));
       cache.put(id, team);
     }
     return team;
@@ -37,7 +39,7 @@ public class TeamService {
   public void deleteTeamById(Long id) {
     Team team = teamRepository.findById(id).orElse(null);
     if (team == null) {
-      throw new ResourceNotFoundException("Team (with id = %d) not found".formatted(id));
+      throw new ResourceNotFoundException(TEAM_WITH_ID_D_NOT_FOUND.formatted(id));
     }
     cache.remove(id);
     if (team.getPlayers() != null) {
@@ -59,10 +61,10 @@ public class TeamService {
   public void addPlayer(Long playerId, Long teamId) {
     cache.remove(teamId);
     Team team = teamRepository.findById(teamId).orElseThrow(
-        () -> new ResourceNotFoundException("Team (with id = %d) not found".formatted(teamId))
+        () -> new ResourceNotFoundException(TEAM_WITH_ID_D_NOT_FOUND.formatted(teamId))
     );
     Player player = playerRepository.findById(playerId).orElseThrow(
-        () -> new ResourceNotFoundException("Player (with id = %d) not found".formatted(playerId))
+        () -> new ResourceNotFoundException(PLAYER_WITH_ID_D_NOT_FOUND.formatted(playerId))
     );
     team.addPlayer(player);
     player.setTeam(team);
@@ -76,10 +78,10 @@ public class TeamService {
   public void removePlayerFromTeam(Long playerId, Long teamId) {
     cache.remove(teamId);
     if (!teamRepository.existsById(teamId)) {
-      throw new ResourceNotFoundException("Team (with id = %d) not found".formatted(teamId));
+      throw new ResourceNotFoundException(TEAM_WITH_ID_D_NOT_FOUND.formatted(teamId));
     }
     Player player = playerRepository.findById(playerId).orElseThrow(
-        () -> new ResourceNotFoundException("Player (with id = %d) not found".formatted(teamId))
+        () -> new ResourceNotFoundException(PLAYER_WITH_ID_D_NOT_FOUND.formatted(teamId))
     );
     player.setTeam(null);
     playerRepository.save(player);
@@ -88,10 +90,10 @@ public class TeamService {
   public void addPlayerToTeam(Long teamId, Long playerId) {
     cache.remove(teamId);
     Team team = teamRepository.findById(teamId).orElseThrow(
-        () -> new ResourceNotFoundException("Team (with id = %d) not found".formatted(teamId))
+        () -> new ResourceNotFoundException(TEAM_WITH_ID_D_NOT_FOUND.formatted(teamId))
     );
     Player player = playerRepository.findById(playerId).orElseThrow(
-        () -> new ResourceNotFoundException("Player (with id = %d) not found".formatted(playerId))
+        () -> new ResourceNotFoundException(PLAYER_WITH_ID_D_NOT_FOUND.formatted(playerId))
     );
     player.setTeam(team);
     team.addPlayer(player);

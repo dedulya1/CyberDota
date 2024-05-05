@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Logging
 @Service
 public class MatchService {
+  public static final String MATCH_WITH_ID_D_NOT_FOUND = "Match (with id = %d) not found";
   private final CacheEntity<Long, Match> cache;
   private final MatchRepository matchRepository;
   private final PlayerRepository playerRepository;
@@ -40,7 +41,7 @@ public class MatchService {
     Match match = cache.get(id);
     if (match == null) {
       match = matchRepository.findById(id).orElseThrow(
-          () -> new ResourceNotFoundException("Match (with id = %d) not found".formatted(id)));
+          () -> new ResourceNotFoundException(MATCH_WITH_ID_D_NOT_FOUND.formatted(id)));
       cache.put(id, match);
     }
     return match;
@@ -48,7 +49,7 @@ public class MatchService {
 
   public void deleteMatch(Long id) {
     if (!matchRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Match (with id = %d) not found".formatted(id));
+      throw new ResourceNotFoundException(MATCH_WITH_ID_D_NOT_FOUND.formatted(id));
     }
     matchRepository.deleteById(id);
     cache.remove(id);
@@ -71,7 +72,7 @@ public class MatchService {
   public void partialUpdateMatch(Long id, Match updates) {
     Optional<Match> optionalMatch = matchRepository.findById(id);
     if (!optionalMatch.isPresent()) {
-      throw new ResourceNotFoundException("Match (with id = %d) not found".formatted(id));
+      throw new ResourceNotFoundException(MATCH_WITH_ID_D_NOT_FOUND.formatted(id));
     }
     Match match = optionalMatch.get();
     if (updates.getDireScore() == null
