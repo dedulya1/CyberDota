@@ -73,7 +73,8 @@ public class MatchController {
 
   @GetMapping("/filter")
   public ResponseEntity<String> getSomething() {
-    throw new NotImplementedException("Resource doesn't exist");
+    matchService.filter();
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }
 

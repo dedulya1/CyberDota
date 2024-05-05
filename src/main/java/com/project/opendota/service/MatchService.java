@@ -2,6 +2,7 @@ package com.project.opendota.service;
 
 import com.project.opendota.aop.annotation.Logging;
 import com.project.opendota.aop.exception.InvalidRequestException;
+import com.project.opendota.aop.exception.NotImplementedException;
 import com.project.opendota.aop.exception.ResourceNotFoundException;
 import com.project.opendota.cache.CacheEntity;
 import com.project.opendota.entity.Match;
@@ -100,5 +101,9 @@ public class MatchService {
       player.get().addMatch(match.get());
       matchRepository.save(match.get());
     }
+  }
+
+  public void filter() {
+    throw new NotImplementedException("Resource doesn't exist");
   }
 }
