@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
@@ -694,7 +693,7 @@ class TeamServiceTest {
         teamService.findPlayersInTeamWithRating(1L, 1, 3);
 
     // Assert
-    verify(teamRepository).findPlayersInTeamWithRating(1L, eq(1), eq(3));
+    verify(teamRepository).findPlayersInTeamWithRating(1L, 1, 3);
     assertTrue(actualFindPlayersInTeamWithRatingResult.isEmpty());
     assertSame(playerList, actualFindPlayersInTeamWithRatingResult);
   }
@@ -714,6 +713,6 @@ class TeamServiceTest {
     // Act and Assert
     assertThrows(ResourceNotFoundException.class,
         () -> teamService.findPlayersInTeamWithRating(1L, 1, 3));
-    verify(teamRepository).findPlayersInTeamWithRating(1L, eq(1), eq(3));
+    verify(teamRepository).findPlayersInTeamWithRating(1L, 1, 3);
   }
 }
